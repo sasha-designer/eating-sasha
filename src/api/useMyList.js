@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 const useMyList = () => {
     const [places, setPlaces] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [newPlaces, setnewPlaces] = useState([]);
 
     useEffect(() => {
         setLoading(true);
@@ -22,7 +23,29 @@ const useMyList = () => {
             });
     }, []);
 
-    return { places, loading };
+
+    const addPlace = (newPlace) => {
+        return axios
+            .post("/api/users/places", { newPlace })
+            .then((response) => {
+                setnewPlaces((prevPlaces) => [...prevPlaces, response.data.place]);
+            })
+            .catch((error) => {
+                console.error("There was an error adding the place!", error);
+            });
+    };
+
+
+
+
+
+
+
+
+
+    return { places, loading, addPlace };
 }
+
+
 
 export default useMyList;

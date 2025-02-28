@@ -6,10 +6,19 @@ import {
   CardMedia,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
+import useMyList from "../api/useMyList";
 
 const StoreCard = ({ item }) => {
+  const { addPlace } = useMyList();
   const { image, title, description } = item;
+  const [saved, setSaved] = useState(false);
+
+  const handleSave = () => {
+    setSaved(!saved);
+    addPlace(item);
+    console.log("save", item);
+  };
 
   return (
     <div>
@@ -30,8 +39,14 @@ const StoreCard = ({ item }) => {
             backgroundColor: "rgba(255, 255, 255, 0.9)",
             borderRadius: "50%",
           }}
+          onClick={handleSave}
         >
-          <Icon icon="eva:heart-outline" width="24" height="24" />
+          <Icon
+            icon={saved ? "eva:heart-fill" : "eva:heart-outline"}
+            width="24"
+            height="24"
+            color={saved ? "red" : "black"}
+          />
         </ButtonBase>
 
         <CardContent

@@ -15,6 +15,7 @@ const AllListContainer = () => {
   const [userLocation, setUserLocation] = useState({ lat: null, lon: null });
   const [sortedPlaces, setSortedPlaces] = useState([]);
 
+  // 현재 위치랑 정렬을 한번에 합칠 수 있음
   useEffect(() => {
     const getCurrentPosition = () => {
       if (navigator.geolocation) {
@@ -22,29 +23,24 @@ const AllListContainer = () => {
           (position) => {
             const { latitude, longitude } = position.coords;
             setUserLocation({ lat: latitude, lon: longitude });
+            const sorted = sortPlacesByDistance(
+              places,
+              userLocation.lat,
+              userLocation.lon
+            );
+            setSortedPlaces(sorted);
           },
           (error) => {
             console.error("위치를 불러오지 못했습니다. ", error);
           }
         );
+      } else {
+        setSortedPlaces(places);
       }
     };
 
     getCurrentPosition();
-  }, []);
-
-  useEffect(() => {
-    if (userLocation.lat && userLocation.lon && places.length > 0) {
-      const sorted = sortPlacesByDistance(
-        places,
-        userLocation.lat,
-        userLocation.lon
-      );
-      setSortedPlaces(sorted);
-    } else {
-      setSortedPlaces(places);
-    }
-  }, [userLocation, places]);
+  }, [places]);
 
   if (loading) {
     return (
