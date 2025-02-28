@@ -9,7 +9,7 @@ const useMyList = () => {
     useEffect(() => {
         setLoading(true);
         axios
-            .get("api/users/places")
+            .get("api/user/places")
             .then((response) => {
                 const { places } = response.data;
                 setPlaces(places);
@@ -20,7 +20,7 @@ const useMyList = () => {
             }).finally(() => {
                 setLoading(false);
             });
-    }, [places]);
+    }, []);
 
     return { places, loading };
 }

@@ -15,6 +15,19 @@ import useAllList from "../api/useAllList";
 
 const AllList = () => {
   const { places, loading } = useAllList();
+  // const [myPlaces, setMyPlaces] = useState([]);
+
+  // const addPlace = (newPlace) => {
+  //   // setLoading(true);
+  //   axios
+  //     .post("api/users/places", newPlace)
+  //     .then((response) => {
+  //       setMyPlaces((prevPlaces) => [...prevPlaces, response.data.place]);
+  //     })
+  //     .catch((error) => {
+  //       console.error("There was an error adding the place!", error);
+  //     });
+  // };
 
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: "#fff",
