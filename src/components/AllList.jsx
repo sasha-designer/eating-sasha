@@ -1,11 +1,10 @@
+import { Icon } from "@iconify/react";
 import {
-  Backdrop,
   Box,
-  Button,
+  ButtonBase,
   Card,
   CardContent,
   CardMedia,
-  CircularProgress,
   Grid2,
   Paper,
   Typography,
@@ -35,13 +34,28 @@ const AllList = () => {
       <Grid2 container spacing={2}>
         {places.map((item, id) => (
           <Grid2 key={id} size={{ xs: 6, sm: 4, md: 3 }}>
-            <Card sx={{ maxWidth: 345 }}>
+            <Card sx={{ maxWidth: 345, position: "relative" }}>
               <CardMedia
                 sx={{ height: 140 }}
                 // image={item.image.src}
                 image={`http://localhost:3000/${item.image.src}`}
                 title={item.title}
               />
+              <ButtonBase
+                sx={{
+                  position: "absolute",
+                  top: 8,
+                  right: 8,
+                  zIndex: 999,
+                  padding: "8px",
+                  textAlign: "right",
+                  backgroundColor: "rgba(255, 255, 255, 0.9)",
+                  borderRadius: "50%",
+                }}
+              >
+                <Icon icon="eva:heart-outline" width="24" height="24" />
+              </ButtonBase>
+
               <CardContent
                 sx={{
                   display: "flex",
@@ -50,23 +64,14 @@ const AllList = () => {
                   // alignItems: "center",
                 }}
               >
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
+                <Typography
+                  gutterBottom
+                  variant="body1"
+                  component="div"
+                  sx={{ textAlign: "left" }}
                 >
-                  <Typography
-                    gutterBottom
-                    variant="body1"
-                    component="div"
-                    sx={{ textAlign: "left" }}
-                  >
-                    {item.title}
-                  </Typography>
-                  <Button></Button>
-                </Box>
+                  {item.title}
+                </Typography>
 
                 <Typography
                   variant="body2"
@@ -80,9 +85,9 @@ const AllList = () => {
           </Grid2>
         ))}
       </Grid2>
-      <Backdrop open={loading}>
+      {/* <Backdrop open={loading}>
         <CircularProgress color="inherit" />
-      </Backdrop>
+      </Backdrop> */}
     </Box>
   );
 };
