@@ -1,8 +1,21 @@
-import { Box, Grid2, Paper } from "@mui/material";
+import {
+  Backdrop,
+  Box,
+  Card,
+  CardContent,
+  CardMedia,
+  CircularProgress,
+  Grid2,
+  Paper,
+  Typography,
+} from "@mui/material";
 import { styled } from "@mui/material/styles";
 import React from "react";
+import useMyList from "../api/useMyList";
 
 const MyList = () => {
+  const { places, loading } = useMyList();
+
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: "#fff",
     ...theme.typography.body2,
@@ -18,31 +31,27 @@ const MyList = () => {
     <Box>
       <h1>찜한 맛집</h1>
       <Grid2 container spacing={2}>
-        <Grid2 size={3}>
-          <Item>
-            <img src="image1.jpg" alt="a" style={{ width: "100%" }} />
-            <p style={{ margin: 0, fontSize: "0.8rem" }}>a</p>
-          </Item>
-        </Grid2>
-        <Grid2 size={3}>
-          <Item>
-            <img src="image2.jpg" alt="b" style={{ width: "100%" }} />
-            <p style={{ margin: 0, fontSize: "0.8rem" }}>b</p>
-          </Item>
-        </Grid2>
-        <Grid2 size={3}>
-          <Item>
-            <img src="image3.jpg" alt="c" style={{ width: "100%" }} />
-            <p style={{ margin: 0, fontSize: "0.8rem" }}>c</p>
-          </Item>
-        </Grid2>
-        <Grid2 size={3}>
-          <Item>
-            <img src="image4.jpg" alt="d" style={{ width: "100%" }} />
-            <p style={{ margin: 0, fontSize: "0.8rem" }}>d</p>
-          </Item>
-        </Grid2>
+        {places.map((item, id) => (
+          <Grid2 key={id} size={{ xs: 6, sm: 4, md: 3 }}>
+            <Card sx={{ maxWidth: 345 }}>
+              <CardMedia
+                sx={{ height: 140 }}
+                // image={item.image.src}
+                image={`http://localhost:3000/${item.image.src}`}
+                title={item.title}
+              />
+              <CardContent>
+                <Typography gutterBottom variant="body1" component="div">
+                  {item.title}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid2>
+        ))}
       </Grid2>
+      <Backdrop open={loading}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </Box>
   );
 };
