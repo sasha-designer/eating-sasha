@@ -9,7 +9,7 @@ const useMyList = () => {
     useEffect(() => {
         setLoading(true);
         axios
-            .get("api/user/places")
+            .get("/api/users/places")
             .then((response) => {
                 const { places } = response.data;
                 setPlaces(places);

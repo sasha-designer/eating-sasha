@@ -1,12 +1,10 @@
 import "./App.css";
-import AllList from "./components/AllList";
-import MyList from "./components/MyList";
+import HomePage from "./pages/HomePage";
 
 function App() {
   return (
     <>
-      <MyList />
-      <AllList />
+      <HomePage />
     </>
   );
 }
