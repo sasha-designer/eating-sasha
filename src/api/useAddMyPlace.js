@@ -7,7 +7,8 @@ const useAddMyPlace = () => {
     const addMyPlace = async (place) => {
         try {
             const response = await axios.post("http://localhost:3000/users/places", {
-                place: place
+                place: place,
+                withCredentials: true
             },
                 { "Content-Type": "application/json", withCredentials: true });
             console.log(response.data);

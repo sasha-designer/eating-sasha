@@ -12,7 +12,7 @@ const useAllList = () => {
     useEffect(() => {
         setLoading(true);
         axios
-            .get("http://localhost:3000/places")
+            .get("http://localhost:3000/places", { withCredentials: true })
             .then((response) => {
                 const { places } = response.data;
                 setPlaces(places);
