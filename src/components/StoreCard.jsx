@@ -47,23 +47,31 @@ const StoreCard = ({ item }) => {
 
   const handleSave = () => {
     if (saved) {
-      if (
-        window.confirm(
-          "Are you sure you want to remove this item from your favorites?"
-        )
-      ) {
-        dispatch(removeFavorite(item.id));
-        // console.log("removeFavorite", item.id);
+      handleClickOpen();
+      // if (
+      //   window.confirm(
+      //     "Are you sure you want to remove this item from your favorites?"
+      //   )
+      // ) {
+      //   dispatch(removeFavorite(item.id));
+      //   // console.log("removeFavorite", item.id);
 
-        deletePlace(item.id);
-        // console.log("useDeleteMyPlace", item.id);
-        setSaved(!saved);
-      }
+      //   deletePlace(item.id);
+      //   // console.log("useDeleteMyPlace", item.id);
+      //   setSaved(!saved);
+      // }
     } else {
       dispatch(addFavorite(item.id));
       addMyPlace(item);
       setSaved(!saved);
     }
+  };
+
+  const handleDelete = () => {
+    dispatch(removeFavorite(item.id));
+    deletePlace(item.id);
+    setSaved(!saved);
+    setOpen(false);
   };
 
   return (
@@ -100,19 +108,16 @@ const StoreCard = ({ item }) => {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title">
-            {"Use Google's location service?"}
-          </DialogTitle>
+          <DialogTitle id="alert-dialog-title">{"확인"}</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              Let Google help apps determine location. This means sending
-              anonymous location data to Google, even when no apps are running.
+              찜한 맛집에서 정말 삭제할까요?
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>Disagree</Button>
-            <Button onClick={handleClose} autoFocus>
-              Agree
+            <Button onClick={handleClose}>더 생각해보기</Button>
+            <Button variant="outlined" onClick={handleDelete} autoFocus>
+              삭제하기
             </Button>
           </DialogActions>
         </Dialog>
