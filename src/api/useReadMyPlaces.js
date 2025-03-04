@@ -15,7 +15,7 @@ const useReadMyPlaces = () => {
         setLoading(true);
         const fetchPlaces = async () => {
             try {
-                const response = await axios.get("/api/users/places");
+                const response = await axios.get("http://localhost:3000/users/places");
                 const { places } = response.data;
                 setPlaces(places);
             } catch (error) {
