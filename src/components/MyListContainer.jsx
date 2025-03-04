@@ -6,6 +6,10 @@ import StoreCard from "./StoreCard";
 const MyListContainer = () => {
   const { places } = useReadMyPlaces();
 
+  // useEffect(() => {
+  //   console.log("places", places);
+  // }, [places]);
+
   return (
     <Box
       sx={{
@@ -16,6 +20,9 @@ const MyListContainer = () => {
     >
       <Typography variant="h4" sx={{ pb: 3 }}>
         찜한 맛집
+      </Typography>
+      <Typography variant="body1" sx={{ pb: 3 }}>
+        추가한 순서대로 보여집니다☺️
       </Typography>
 
       {places && places.length > 0 ? (

@@ -1,24 +1,69 @@
 import { Icon } from "@iconify/react";
 import {
+  Button,
   ButtonBase,
   Card,
   CardContent,
   CardMedia,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import useAddMyPlace from "../api/useAddMyPlace";
+import useDeleteMyPlace from "../api/useDeleteMyPlace";
+
+import { useDispatch, useSelector } from "react-redux";
+import { addFavorite, removeFavorite } from "../redux/reducers";
+
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
 const StoreCard = ({ item }) => {
   const { image, title, description } = item;
-  const [saved, setSaved] = useState(false);
+
+  const dispatch = useDispatch();
+  const favorites = useSelector((state) => state.favorites);
   const { addMyPlace } = useAddMyPlace();
+  const { deletePlace } = useDeleteMyPlace();
+  const [saved, setSaved] = useState(favorites.some((fav) => fav === item.id));
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  useEffect(() => {
+    setSaved(favorites.some((fav) => fav === item.id));
+  }, [favorites, item.id]);
+
+  console.log("favorites", favorites);
 
   const handleSave = () => {
-    setSaved(!saved);
-    addMyPlace(item);
-    console.log("save", item);
+    if (saved) {
+      if (
+        window.confirm(
+          "Are you sure you want to remove this item from your favorites?"
+        )
+      ) {
+        dispatch(removeFavorite(item.id));
+        // console.log("removeFavorite", item.id);
+
+        deletePlace(item.id);
+        // console.log("useDeleteMyPlace", item.id);
+        setSaved(!saved);
+      }
+    } else {
+      dispatch(addFavorite(item.id));
+      addMyPlace(item);
+      setSaved(!saved);
+    }
   };
 
   return (
@@ -49,6 +94,28 @@ const StoreCard = ({ item }) => {
             color={saved ? "red" : "black"}
           />
         </ButtonBase>
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            {"Use Google's location service?"}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Let Google help apps determine location. This means sending
+              anonymous location data to Google, even when no apps are running.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Disagree</Button>
+            <Button onClick={handleClose} autoFocus>
+              Agree
+            </Button>
+          </DialogActions>
+        </Dialog>
 
         <CardContent
           sx={{

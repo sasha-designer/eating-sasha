@@ -1,47 +1,33 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 
 const useReadMyPlaces = () => {
     const [places, setPlaces] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [newPlaces, setnewPlaces] = useState([]);
+    const favorites = useSelector((state) => state.favorites);
+
+
+
 
     useEffect(() => {
         setLoading(true);
-        axios
-            .get("/api/users/places")
-            .then((response) => {
+        const fetchPlaces = async () => {
+            try {
+                const response = await axios.get("/api/users/places");
                 const { places } = response.data;
                 setPlaces(places);
-            })
-            .catch((error) => {
+            } catch (error) {
                 console.error("There was an error fetching the data!", error);
                 setPlaces([]);
-            }).finally(() => {
+            } finally {
                 setLoading(false);
-            });
-    }, []);
+            }
+        };
 
-
-    // const addPlace = (newPlace) => {
-    //     return axios
-    //         .post("/api/users/places", { newPlace })
-    //         .then((response) => {
-    //             setnewPlaces((prevPlaces) => [...prevPlaces, response.data.place]);
-    //         })
-    //         .catch((error) => {
-    //             console.error("There was an error adding the place!", error);
-    //         });
-    // };
-
-
-
-
-
-
-
-
+        fetchPlaces();
+    }, [favorites]);
 
     return { places, loading };
 }
