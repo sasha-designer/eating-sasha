@@ -7,16 +7,17 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
-import useMyList from "../api/useMyList";
+
+import useAddMyPlace from "../api/useAddMyPlace";
 
 const StoreCard = ({ item }) => {
-  const { addPlace } = useMyList();
   const { image, title, description } = item;
   const [saved, setSaved] = useState(false);
+  const { addMyPlace } = useAddMyPlace();
 
   const handleSave = () => {
     setSaved(!saved);
-    addPlace(item);
+    addMyPlace(item);
     console.log("save", item);
   };
 

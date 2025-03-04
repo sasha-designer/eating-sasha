@@ -1,9 +1,10 @@
 import { Box, Grid2, Typography } from "@mui/material";
 import React from "react";
-import useMyList from "../api/useMyList";
+import useReadMyPlaces from "../api/useReadMyPlaces";
+import StoreCard from "./StoreCard";
 
 const MyListContainer = () => {
-  const { places } = useMyList();
+  const { places } = useReadMyPlaces();
 
   return (
     <Box
@@ -17,7 +18,7 @@ const MyListContainer = () => {
         찜한 맛집
       </Typography>
 
-      {places === null ? (
+      {places && places.length > 0 ? (
         <Grid2 container spacing={2}>
           {places.map((item, id) => (
             <Grid2 key={id} size={{ xs: 6, sm: 4, md: 3 }}>
