@@ -41,7 +41,7 @@ const StoreCard = ({ item }) => {
 
   useEffect(() => {
     setSaved(favorites.some((fav) => fav === item.id));
-  }, [favorites, item.id]);
+  }, [favorites]);
 
   console.log("favorites", favorites);
 
@@ -63,14 +63,14 @@ const StoreCard = ({ item }) => {
     } else {
       dispatch(addFavorite(item.id));
       addMyPlace(item);
-      setSaved(!saved);
+      // setSaved(!saved);
     }
   };
 
   const handleDelete = () => {
     dispatch(removeFavorite(item.id));
     deletePlace(item.id);
-    setSaved(!saved);
+    // setSaved(!saved);
     setOpen(false);
   };
 
